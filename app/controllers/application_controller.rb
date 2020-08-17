@@ -8,4 +8,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys:[:name])
   end
 
+  def authenticate_admin!
+    unless current_user.present? && current_user.is_admin?
+      redirect_to root_path, notice: 'No tienes permiso para acceder a esta sección'
+    end
+  end
+
 end
